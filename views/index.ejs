@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel="stylesheet" href="/stylesheets/ui.tabs.css"/>
+	
+	<script src="/javascripts/jquery.min.js"></script>
+	<script src="/javascripts/ui.core.js"></script>
+	<script src="/javascripts/ui.tabs.js"></script>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/javascripts/robo.js"></script>
+	
+<STYLE type="text/css">
+<!--
+
+.box_ab { position: absolute; }
+.box_rel { position: relative; }
+/*.f{float:left; padding:10px;}*/
+
+input[type="button"] {
+
+  -webkit-appearance: none;
+
+}
+
+.btn{ width:70px; height:60px; margin-top:5px; }
+.btn2{ width:215px; height:50px; margin-top:5px; }
+.btn3{ width:160px; height:50px; margin-top:5px; }
+.btn4{ width:70px; height:50px; margin-top:5px; }
+.btn5{ width:60px; height:50px; margin-top:5px; }
+.btn6{ width:60px; height:30px; margin-top:5px; }
+.btn7{ width:40px; height:30px; margin-top:5px; }
+
+.box1{
+	border: 1px solid #999; padding:5px;
+}
+
+.info{
+	margin-top:10px;
+	border: 1px solid #999; padding:5px;
+}
+
+table.sample{
+    border-top:1px solid #663300;
+    border-left:1px solid #663300;
+    border-collapse:collapse;
+    border-spacing:0;
+    background-color:#ffffff;
+    empty-cells:show;
+}
+.sample th{
+    border-right:1px solid #663300;
+    border-bottom:1px solid #663300;
+    color:#330000;
+    background-color:#eef;
+    background-position:left top;
+    padding:0.3em 1em;
+    text-align:center;
+}
+.sample td{
+    border-right:1px solid #663300;
+    border-bottom:1px solid #663300;
+    padding:0.3em 1em;
+}
+
+-->
+</STYLE>
+
+</head>
+<body>
+
+<div id="container" style="width:350px; padding:0px;">
+	<ul>
+		<li><a href="#fragment-1"><span>about</span></a></li>
+		<li><a href="#fragment-2"><span>robo list</span></a></li>
+		<li><a href="#fragment-3"><span>operate</span></a></li>
+	</ul>
+	
+	<div id="fragment-1" class="box1">
+		概要:ロボット遠隔操作<br>
+		android+(mindstorms NXT or ADKボード搭載ハード)を操作可能<br>
+		ソースコード公開予定（現在調整中）<br>
+		<br>
+		<table class="sample">
+		<tr>
+			<th style="width:91px;">手順</th>
+			<th style="width:85px;">NXT</th>
+			<th style="width:85px;">ADK</th>
+		</tr>
+
+		<tr>
+			<td>ハード作成</td>
+			<td colspan=2 align="center"><a href="#" class="a_info" ref="1">androidを搭載可能なハード</a>作成</td>
+		</tr>
+
+		<tr>
+			<td>androidアプリ</td>
+			<td align="center"><a href="#" class="a_info" ref="2">NXT003</a></td>
+			<td align="center"><a href="#" class="a_info" ref="2">ADK002</a></td>
+		</tr>
+
+		<tr>
+			<td>roboサーバー</td>
+			<td colspan=2 align="center"><a href="#" class="a_info" ref="4">ID,passを事前に登録</a></td>
+		</tr>
+
+		<tr>
+			<td>ハード準備</td>
+			<td>NXT電源ON</td>
+			<td><a href="#" class="a_info" ref="5">arduino sketch</a></td>
+		</tr>
+
+		<tr>
+			<td rowspan=2>androidアプリ</td>
+			<td align="center">bluetooth接続</td>
+			<td align="center">USB接続</td>
+		</tr>
+
+		<tr>
+			<td colspan=2 align="center">ID,passを設定してroboサーバー接続</td>
+		</tr>
+
+		<tr>
+			<td>スカイプ接続</td>
+			<td colspan=2 align="center">スカイプ,ハングアウト,ustream等</td>
+		</tr>
+
+		<tr>
+			<td>roboサーバー </td>
+			<td colspan=2 align="center"><a href="#" class="a_info" ref="6">ID、pass入力</a>して操作</td>
+		</tr>
+		</table>
+		
+		<div id="info_1" class="info">
+		android搭載可能ハードの作成<br>
+		<br>
+		NXT　モータBCを動力　Aをカメラチルトに使用<br>
+		<br>
+		ADK　NXTと同じような構成のハードを作成<br>
+		ADKボード <a href="http://www.switch-science.com/products/detail.php?product_id=1009" target="_blank">Arduino ADK R3</a> 等<br>
+		<br>
+		Aモーターはチルト等のオプションなのでなくても可<br>
+		NXT、ADK共に内蔵プログラム呼出機能があるので基本的には何を作ってもOK<br>
+		<br>
+		作例）
+		
+		<br>
+		<img src="http://fow.bz/robo/ex1.jpg"><br>
+		NXT 7インチタブレット搭載可能<br>
+
+		<br>
+		<img src="http://fow.bz/robo/ex2.jpg"><br>
+		ADK タミヤの工作キットベース<br>
+
+		<br>
+		<img src="http://fow.bz/robo/ex3.jpg"><br>
+		ADK+レゴ<br>
+
+		</div>
+
+		<div id="info_2" class="info">
+		androidアプリをインストールして下さい<br>
+		NXTとADKは別のアプリとなっています<br>
+		<br>
+		NXT<br>
+		<a href="http://fow.bz/robo/NXT003.apk" target="_blank">NXT003</a><br>
+		<br>
+		ADK<br>
+		<a href="http://fow.bz/robo/adk002.apk" target="_blank">ADK002</a><br>
+		
+		<br>
+		使い方説明<br>
+		<br>
+		（NXTの場合）NXTボタンでbluetooth接続します　もう一度押すと接続を切ります<br>
+		（ADKの場合）USBケーブル接続します　アプリが立ち上がるはずです<br>
+		（共通）<br>
+id/passを入力して下さい<br>
+socketボタンでサーバーと接続<br>
+testはサーバーへtestメッセージ送信<br>
+closeはサーバーとの接続を切断<br>
+quitで終了ですがこのボタンを押さない限りバックグラウンドで動き続けます<br>
+その他のボタンはテスト操作用です
+		
+		</div>
+
+		<div id="info_4" class="info">
+		こちらでIDを登録して使用ください<br>
+		パスワード変更もこちらから行います<br>
+		id,pass使用可能文字 0-9a-z._@- 大文字小文字区別しない<br>
+		<br>
+		id:<input type="text" id="rg_robo_id" size="8" value="" maxlength="12"><br>
+		pass:<input type="text" id="rg_pass" size="6" value="" maxlength="12"><br>
+		new_pass:<input type="text" id="change_pass" size="6" value="" maxlength="12">(パスワード変更の場合)<br>
+		<input type="button" class="btn7" value="登録" onclick="id_new()"> 
+		<input type="button" class="btn7" value="変更" onclick="id_pass_change()"><br>
+
+		<div id="id_message"></div>
+		
+		
+		</div>
+
+
+		<div id="info_5" class="info">
+		arduino sketch<br>
+		<br>
+		スケッチのサンプルを掲載しておきます。<br>
+		<br>
+		モータBC（<a href="http://www.switch-science.com/products/detail.php?product_id=788" target="_blank">モーターシールド</a>使用）<br>
+		<a href="http://fow.bz/robo/ADK002.ino" target="_blank">ADK002.ino</a><br>
+		<br>
+		Aモータ有り版（モーターシールド、<a href="http://akizukidenshi.com/catalog/g/gI-02001/" target="_blank">モータードライバ</a>使用）<br>
+		<a href="http://fow.bz/robo/ADK002_A.ino" target="_blank">ADK002_A.ino</a><br>
+		<br>
+		モータBC（モータードライバ2個使用）<br>
+		<a href="http://fow.bz/robo/ADK002_BC.ino" target="_blank">ADK002_BC.ino</a><br>
+		<br>
+		※
+		<a href="http://developer.android.com/tools/adk/adk.html" target="_blank">
+		ADK 2011 Guide</a> の
+		<a href="https://dl-ssl.google.com/android/adk/adk_release_20120606.zip" target="_blank">ADK package download.</a>
+		
+		からarduino_libsの内容をarduino-1.0.1インストールディレクトリのlibrariesフォルダにいれる
+		
+		</div>
+		
+		<div id="info_6" class="info">
+		<a href="javascript:void(0);" onclick="go_tab(1)">robo list タブ</a>にて入力
+		</div>
+
+	</div>
+
+
+	<div id="fragment-2" class="box1">
+
+		id:<input type="text" id="robo_id" size="8" value="" maxlength="12"> 
+		pass:<input type="password" id="pass" size="6" value="" maxlength="12">
+		<input type="button" value="接続" class="btn6" onclick="join()">
+		<input type="button" value="切断" class="btn6" onclick="discon()"><br>
+		
+		
+		<div id="login_message"></div>
+		<div id="robo_id_list"></div>
+
+	</div>
+	<div id="fragment-3" class="box1">
+	
+		<div id="op1">
+<input type="button" class="btn btn_dir"  value="←↑"   id="btn_1"  onmousedown="btn(1)">
+<input type="button" class="btn btn_dir"  value="[i] ↑" id="btn_2"  onmousedown="btn(2)">
+<input type="button" class="btn btn_dir"  value="↑→"   id="btn_3"  onmousedown="btn(3)"><br>
+<input type="button" class="btn btn_dir"  value="[j] ←" id="btn_4"  onmousedown="btn(4)">
+<input type="button" class="btn btn_dir"  value="[q] ■" id="btn_5"  onmousedown="btn(5)">
+<input type="button" class="btn btn_dir"  value="[l] →" id="btn_6"  onmousedown="btn(6)"><br>
+<input type="button" class="btn btn_dir"  value="←↓"   id="btn_7"  onmousedown="btn(7)">
+<input type="button" class="btn btn_dir"  value="[k] ↓" id="btn_8"  onmousedown="btn(8)">
+<input type="button" class="btn btn_dir"  value="↓→"   id="btn_9"  onmousedown="btn(9)"><br>
+<input type="button" class="btn4 btn_dir2" value=" "      id="btn_10" onmousedown="btn(10)">
+<input type="button" class="btn4 btn_dir2" value="[e] A+" id="btn_11" onmousedown="btn(11)">
+<input type="button" class="btn4 btn_dir2" value="[r] A-" id="btn_12" onmousedown="btn(12)"><span id="ma_out"> A:<select id="ma_speed"></select></span><br>
+<input type="button" class="btn5 btn_m" value="[z] 35"  id="btn_13" onmousedown="btn(13)">
+<input type="button" class="btn5 btn_m" value="[x] 50"  id="btn_14" onmousedown="btn(14)">
+<input type="button" class="btn5 btn_m" value="[c] 65"  id="btn_15" onmousedown="btn(15)">
+<input type="button" class="btn5 btn_m" value="[v] 80"  id="btn_16" onmousedown="btn(16)">
+<input type="button" class="btn5 btn_m" value="[b] 100" id="btn_17" onmousedown="btn(17)"><br>
+
+<input type="button" class="btn5 btn_delay" value="[a] 0"   id="btn_18" onmousedown="btn(18)">
+<input type="button" class="btn5 btn_delay" value="[s] 0.2" id="btn_19" onmousedown="btn(19)">
+<input type="button" class="btn5 btn_delay" value="[d] 0.5" id="btn_20" onmousedown="btn(20)">
+<input type="button" class="btn5 btn_delay" value="[f] 1"   id="btn_21" onmousedown="btn(21)">
+<input type="button" class="btn5 btn_delay" value="[g] 3"   id="btn_22" onmousedown="btn(22)"><br>
+
+			<div id="st_delay">
+				<input type="button" class="btn5 btn_delay2" value="0"  id="btn_23" onmousedown="btn(23)">
+				<input type="button" class="btn5 btn_delay2" value="1"  id="btn_24" onmousedown="btn(24)">
+				<input type="button" class="btn5 btn_delay2" value="3"  id="btn_25" onmousedown="btn(25)">
+				<input type="button" class="btn5 btn_delay2" value="5"  id="btn_26" onmousedown="btn(26)">
+				<input type="button" class="btn5 btn_delay2" value="10" id="btn_27" onmousedown="btn(27)"><br>
+			</div>
+
+		</div>
+
+		<div id="op2">
+		
+		
+<input type="button" class="btn" value="p1" onmousedown="btnp(1)">
+<input type="button" class="btn" value="p2" onmousedown="btnp(2)">
+<input type="button" class="btn" value="p3" onmousedown="btnp(3)"><br>
+<input type="button" class="btn" value="p4" onmousedown="btnp(4)">
+<input type="button" class="btn" value="p5" onmousedown="btnp(5)">
+<input type="button" class="btn" value="p6" onmousedown="btnp(6)"><br>
+<input type="button" class="btn" value="p7" onmousedown="btnp(7)">
+<input type="button" class="btn" value="p8" onmousedown="btnp(8)">
+<input type="button" class="btn" value="p9" onmousedown="btnp(9)"><br>
+
+<input type="button" class="btn4" value="p10" onmousedown="btnp(10)">
+<input type="button" class="btn4" value="p11" onmousedown="btnp(11)">
+<input type="button" class="btn4" value="p12" onmousedown="btnp(12)">
+<input type="button" class="btn5" value="stop" onmousedown="btnp(0)"><br>
+
+<input type="button" class="btn5" value="p13" onmousedown="btnp(13)">
+<input type="button" class="btn5" value="p14" onmousedown="btnp(14)">
+<input type="button" class="btn5" value="p15" onmousedown="btnp(15)">
+<input type="button" class="btn5" value="p16" onmousedown="btnp(16)">
+<input type="button" class="btn5" value="p17" onmousedown="btnp(17)"><br>
+<input type="button" class="btn5" value="p18" onmousedown="btnp(18)">
+<input type="button" class="btn5" value="p19" onmousedown="btnp(19)">
+<input type="button" class="btn5" value="p20" onmousedown="btnp(20)">
+<input type="button" class="btn5" value="p21" onmousedown="btnp(21)">
+<input type="button" class="btn5" value="p22" onmousedown="btnp(22)"><br>
+
+		</div>
+
+<label><input type="checkbox" name="ck1" class="checkb" value="program" >program</label>
+<label><input type="checkbox" name="ck2" class="checkb" value="MA_out">A別出力</label>
+<label><input type="checkbox" name="ck4" class="checkb" value="st_delay">直進別</label>
+<label><input type="checkbox" name="ck3" class="checkb" value="help">help</label>
+<input type="button" class="btn7" value="切断" onclick="discon()">
+
+<div class="help">[]内のキーに対応(IME off)　方向キー可 </div>
+
+<div class="help">[z-b]モーターABC出力 Aと出力分けたい場合は[A別出力]をチェック</div>
+<div class="help">[a-g]指定時間で停止</div>
+<div class="help">※指定時間 0 の動作　キーの場合　離すと停止<br>
+ボタンの場合　同じボタン押下で停止<br>
+[直進別] 直進（斜め含む）を別の指定時間にする<br>
+</div>
+
+
+<div class="help">program呼出する場合、<a href="#" id="a_more_info">ハード側にプログラムを入れておく</a></div>
+<div id="more_info">
+・NXTの場合<br>
+SDKでp[数字]という名称のプログラムを作成します<br>
+p1～p22までのプログラムを呼出可能です<br>
+<br>
+・ADKの場合<br>
+スケッチに対応プログラムを記述して下さい<br>
+</div>
+
+
+		<div style="margin-top:5px;"><textarea id="receiveMsg" style="font:12px;width:330px; height:200px"></textarea></div>
+		<input type="text" id="cmd" size="16" value="c001001002000"> <input type="button" class="btn7" value="test" onmousedown="sendm_test()">
+		<span id="key_state"></span>
+	</div>
+</div>
+
+
+</body>
+</html>
